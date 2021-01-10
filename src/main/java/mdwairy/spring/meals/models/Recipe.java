@@ -26,6 +26,9 @@ public class Recipe {
     @Lob // to store big objects BLOB
     private Byte[] image;
 
+    @Enumerated(value = EnumType.STRING) // The default is EnumType.ORDINAL which will convert EASY, MODERATE, HARD to 1, 2, 3
+    private Difficulty difficulty;
+
     @OneToOne(cascade = CascadeType.ALL)
     private Note note;
 
