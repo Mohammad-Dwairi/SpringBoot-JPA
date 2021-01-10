@@ -7,7 +7,6 @@ import java.math.BigDecimal;
 
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter @Setter @ToString
 public class Ingredient {
 
@@ -19,9 +18,16 @@ public class Ingredient {
 
     private BigDecimal amount;
 
+    @OneToOne
+    private UnitOfMeasure unitOfMeasure;
+
     @ManyToOne
     private Recipe recipe;
 
-    @OneToOne
-    private UnitOfMeasure unitOfMeasure;
+    public Ingredient(String description, BigDecimal amount, UnitOfMeasure unitOfMeasure, Recipe recipe) {
+        this.description = description;
+        this.amount = amount;
+        this.unitOfMeasure = unitOfMeasure;
+        this.recipe = recipe;
+    }
 }
