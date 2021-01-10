@@ -3,6 +3,7 @@ package mdwairy.spring.meals.models;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -27,4 +28,7 @@ public class Recipe {
 
     @OneToOne(cascade = CascadeType.ALL)
     private Note note;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
+    private Set<Ingredient> ingredients;
 }
