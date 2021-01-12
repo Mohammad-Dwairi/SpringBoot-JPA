@@ -11,7 +11,7 @@ class CategoryTest {
 
     @BeforeEach // @BeforeEach runs before the execution of each test
     public void setUp() {
-        category = new Category();
+        category = new Category(); // create new Category instance before each test
     }
     @Test // Test1
     void getDescription() {
