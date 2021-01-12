@@ -1,12 +1,17 @@
 package mdwairy.spring.meals.controllers;
 
+import mdwairy.spring.meals.models.Recipe;
 import mdwairy.spring.meals.services.RecipeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.ui.Model;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,15 +32,31 @@ class RecipeControllerTest {
         MockitoAnnotations.initMocks(this);
         recipeController = new RecipeController(recipeService);
     }
+
     @Test
     void showRecipes() {
 
-        assertEquals("index", recipeController.showRecipes(model));
+        // Given
+        Set<Recipe> recipes = new HashSet<>();
+        recipes.add(new Recipe());
+        recipes.add(new Recipe());
+
+        Mockito.when(recipeService.getRecipes()).thenReturn(recipes);
+
+        ArgumentCaptor<Set<Recipe>> argumentCaptor = ArgumentCaptor.forClass(Set.class);
+
+        // When
+        String viewName = recipeController.showRecipes(model);
+
+        // Then
+        assertEquals("index", viewName);
 
         // Mockito Verify methods are used to check that certain behavior happened.
         // We can use Mockito verify methods at the end of the testing method code to make sure that specified methods are called.
         // Mockito times used to specify the number of calls to the method.
         Mockito.verify(recipeService, Mockito.times(1)).getRecipes();
-        Mockito.verify(model, Mockito.times(1)).addAttribute(Mockito.eq("recipes"), Mockito.anySet());
+        Mockito.verify(model, Mockito.times(1)).addAttribute(Mockito.eq("recipes"), argumentCaptor.capture());
+        Set<Recipe> setInController = argumentCaptor.getValue();
+        assertEquals(2, setInController.size());
     }
 }
